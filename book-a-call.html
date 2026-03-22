@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — K&A Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(180deg, rgba(224,242,254,0.5) 0%, rgba(243,244,246,0.6) 100%);
+      color: #0a0a0a; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem;
+    }
+    .back { margin-bottom: 1.5rem; }
+    .back a { color: #525252; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .back a:hover { color: #0a0a0a; }
+    .card {
+      width: 100%; max-width: 640px; background: #fff; border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06); padding: 2rem; border: 1px solid #e5e5e5;
+    }
+    .card h1 { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.25rem; display: flex; align-items: center; gap: 0.5rem; }
+    .card .dot { width: 8px; height: 8px; min-width: 8px; min-height: 8px; background: #a3a3a3; border-radius: 50%; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.5rem; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 0.85rem; font-weight: 500; color: #374151; }
+    .field label .req { color: #b91c1c; }
+    .field input, .field select, .field textarea {
+      padding: 0.6rem 0.75rem; border: 1px solid #d4d4d4; border-radius: 0.5rem;
+      font-family: inherit; font-size: 0.95rem; background: #fff;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: #737373; box-shadow: 0 0 0 2px rgba(0,0,0,0.06);
+    }
+    .field textarea { min-height: 100px; resize: vertical; }
+    .hint { font-size: 0.8rem; color: #737373; margin-top: 1rem; }
+    .btn-wrap { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    .btn-send {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.25rem;
+      background: #e5e5e5; color: #0a0a0a; border: none; border-radius: 9999px;
+      font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-send:hover { background: #d4d4d4; transform: translateY(-1px); }
+    .btn-send:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-send svg { width: 18px; height: 18px; }
+    .whatsapp-link { font-size: 0.9rem; }
+    .whatsapp-link a { color: #0a0a0a; text-decoration: underline; }
+    .whatsapp-link a:hover { color: #525252; }
+  </style>
+</head>
+<body>
+  <div class="back"><a href="/">← Back to home</a></div>
+  <div class="card">
+    <h1><span class="dot"></span> How can we help you?</h1>
+    <form id="contact-form">
+      <div class="field full">
+        <label for="qtype">Question type</label>
+        <select id="qtype" name="qtype">
+          <option value="General Question">General Question</option>
+          <option value="Book a call">Book a call</option>
+          <option value="Project inquiry">Project inquiry</option>
+          <option value="Partnership">Partnership</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="name">Full Name <span class="req">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+        </div>
+        <div class="field">
+          <label for="email">Email <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="your.email@company.com" required />
+        </div>
+        <div class="field">
+          <label for="service">Service you're interested in <span class="req">*</span></label>
+          <select id="service" name="service" required>
+            <option value="">Select...</option>
+            <option value="Brand Strategy">Brand Strategy</option>
+            <option value="Web Design & Development">Web Design & Development</option>
+            <option value="Performance Marketing">Performance Marketing</option>
+            <option value="Conversion Optimization">Conversion Optimization</option>
+            <option value="Full project (multiple services)">Full project (multiple services)</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="budget">Budget (optional)</label>
+          <select id="budget" name="budget">
+            <option value="">Select...</option>
+            <option value="Under £5k">Under £5k</option>
+            <option value="£5k–£15k">£5k–£15k</option>
+            <option value="£15k–£50k">£15k–£50k</option>
+            <option value="£50k+">£50k+</option>
+            <option value="Prefer to discuss">Prefer to discuss</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="company">Company (optional)</label>
+          <input type="text" id="company" name="company" placeholder="Your company name" />
+        </div>
+        <div class="field full">
+          <label for="message">Your Message (optional)</label>
+          <textarea id="message" name="message" placeholder="How can we help?"></textarea>
+        </div>
+      </div>
+      <p class="hint">We typically respond within 1–2 business days.</p>
+      <div class="btn-wrap">
+        <button type="button" class="btn-send" id="send-btn">
+          Send Question
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+        <span class="whatsapp-link">or <a href="https://wa.me/447789182492" target="_blank" rel="noopener noreferrer">continue on WhatsApp</a></span>
+      </div>
+    </form>
+  </div>
+  <script>
+    (function() {
+      var form = document.getElementById('contact-form');
+      var sendBtn = document.getElementById('send-btn');
+      var nameEl = document.getElementById('name');
+      var emailEl = document.getElementById('email');
+      var serviceEl = document.getElementById('service');
+      function isValid() {
+        return nameEl.value.trim() && emailEl.value.trim() && serviceEl.value;
+      }
+      function updateButton() {
+        sendBtn.disabled = !isValid();
+      }
+      nameEl.addEventListener('input', updateButton);
+      emailEl.addEventListener('input', updateButton);
+      serviceEl.addEventListener('change', updateButton);
+      updateButton();
+      sendBtn.addEventListener('click', function() {
+        var qtype = document.getElementById('qtype').value;
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var service = document.getElementById('service').value;
+        var budget = document.getElementById('budget').value;
+        var company = document.getElementById('company').value.trim();
+        var message = document.getElementById('message').value.trim();
+        var bodyPlain = 'Question type: ' + qtype + '\n\nName: ' + name + '\nEmail: ' + email + '\nService: ' + service;
+        if (budget) bodyPlain += '\nBudget: ' + budget;
+        if (company) bodyPlain += '\nCompany: ' + company;
+        if (message) bodyPlain += '\n\nMessage: ' + message;
+        var bodyEncoded = encodeURIComponent(bodyPlain);
+        if (bodyEncoded.length > 600) bodyEncoded = bodyEncoded.substring(0, 597) + encodeURIComponent('...');
+        var subject = 'Question from ' + name;
+        var mailto = 'mailto:kento@kaagency.co.uk,aditya@kaagency.co.uk?subject=' + encodeURIComponent(subject) + '&body=' + bodyEncoded;
+        window.location.href = mailto;
+      });
+    })();
+  </script>
+</body>
+</html>

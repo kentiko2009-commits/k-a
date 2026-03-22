@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K&A Agency — Growth. Strategy. Execution.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --bg: #fafafa;
+      --fg: #0a0a0a;
+      --muted: #525252;
+      --border: #e5e5e5;
+      --card: #fff;
+      --accent: #171717;
+      --glass: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.12);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+    .nav-wrap { position: sticky; top: 0; z-index: 50; padding: 1rem; display: flex; justify-content: center; }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1100px; width: 100%; padding: 0.6rem 1.25rem;
+      background: var(--card); border: 1px solid var(--border); border-radius: 9999px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06); backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--fg); text-decoration: none; }
+    .nav-links { display: flex; gap: 1.75rem; align-items: center; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-cta {
+      display: inline-block; padding: 0.5rem 1rem; background: var(--accent); color: #fff;
+      border-radius: 9999px; font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+    .mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--fg); margin: 5px 0; border-radius: 1px; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .mobile-menu-btn { display: block; }
+    }
+    section { max-width: 1100px; margin: 0 auto; padding: 4rem 1.5rem; }
+    .hero-wrap { padding: 2rem 1.5rem 5rem; }
+    .hero {
+      max-width: 1100px; margin: 0 auto; border-radius: 1.5rem; overflow: hidden;
+      background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; padding: 3rem;
+      position: relative;
+    }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 50% at 70% 50%, rgba(80,80,120,0.15), transparent); pointer-events: none; }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; text-align: center; } }
+    .hero-card {
+      background: var(--glass); border: 1px solid var(--glass-border); border-radius: 1rem; padding: 2rem;
+      backdrop-filter: blur(12px);
+    }
+    .hero-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem; }
+    .hero h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; color: #fff; line-height: 1.25; margin: 0 0 1rem; }
+    .hero p { color: rgba(255,255,255,0.75); font-size: 1rem; margin: 0 0 1.5rem; }
+    .hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    @media (max-width: 900px) { .hero-btns { justify-content: center; } }
+    .btn-primary { display: inline-block; padding: 0.75rem 1.5rem; background: #fff; color: #0a0a0a; border-radius: 9999px; font-weight: 600; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+    .btn-secondary { display: inline-block; padding: 0.75rem 1.5rem; border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 9999px; font-weight: 600; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+    .hero-mockup {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 1.25rem;
+      font-size: 0.85rem; color: rgba(255,255,255,0.7);
+      position: relative;
+      min-height: 140px;
+    }
+    .hero-mockup .searchbar-wrap {
+      position: relative;
+      height: 32px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 220px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .hero-mockup .searchbar-wrap .typed-text {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.02em;
+    }
+    .hero-mockup .searchbar-wrap .caret {
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      background: rgba(255,255,255,0.9);
+      margin-left: 1px;
+      animation: caret-blink 0.9s step-end infinite;
+      vertical-align: middle;
+    }
+    .hero-mockup .searchbar-wrap .caret.hidden { opacity: 0; }
+    @keyframes caret-blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .mockup-cursor {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 24px;
+      left: 24px;
+      z-index: 2;
+      opacity: 0;
+      animation: cursor-enter 0.6s ease-out 0.5s forwards;
+    }
+    .mockup-cursor svg {
+      display: block;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+    }
+    .mockup-cursor.clicking {
+      animation: cursor-click 0.25s ease-out 1.1s forwards;
+    }
+    @keyframes cursor-enter {
+      0% { opacity: 0; transform: translate(0, 0) scale(0.8); }
+      15% { opacity: 1; }
+      100% { opacity: 1; transform: translate(42px, -8px) scale(1); }
+    }
+    @keyframes cursor-click {
+      0% { transform: translate(42px, -8px) scale(1); }
+      40% { transform: translate(42px, -8px) scale(0.85); }
+      100% { transform: translate(42px, -8px) scale(1); }
+    }
+    .hero-mockup .row { display: flex; gap: 1rem; margin-bottom: 0.75rem; }
+    .hero-mockup .metric { flex: 1; padding: 0.5rem; background: rgba(255,255,255,0.06); border-radius: 6px; }
+    .section-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 2rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .service-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 1rem; padding: 1.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.12); }
+    .service-card h3 { font-size: 1.1rem; font-weight: 600; margin: 0 0 0.5rem; }
+    .service-card p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+    /* How we work — compact, light (matches Services) */
+    section.process-wrap {
+      max-width: 900px;
+      padding: 2.5rem 1.5rem;
+    }
+    .process-inner { margin: 0 auto; }
+    .process-wrap .process-kicker {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 0 0 0.5rem;
+    }
+    .process-wrap .process-headline {
+      font-size: clamp(1.35rem, 3vw, 1.65rem); font-weight: 700; line-height: 1.25; margin: 0 0 0.5rem; color: var(--fg);
+    }
+    .process-wrap .process-headline .accent { color: #40bfa1; }
+    .process-wrap .process-sub {
+      font-size: 0.9rem; color: var(--muted); max-width: 34rem; margin: 0 0 1.25rem; line-height: 1.55;
+    }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      border: 1px solid var(--border); border-radius: 0.875rem; overflow: hidden;
+      background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .process-cell {
+      padding: 1.1rem 1rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; min-height: 100%;
+    }
+    .process-cell:nth-child(1),
+    .process-cell:nth-child(2),
+    .process-cell:nth-child(3) { grid-column: span 2; }
+    .process-cell:nth-child(3) { border-right: none; }
+    .process-cell:nth-child(4),
+    .process-cell:nth-child(5) {
+      grid-column: span 3;
+      border-bottom: none;
+    }
+    .process-cell:nth-child(5) { border-right: none; }
+    @media (max-width: 900px) {
+      .process-grid { grid-template-columns: 1fr; }
+      .process-cell:nth-child(n) { grid-column: span 1; }
+      .process-cell {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .process-cell:nth-child(4),
+      .process-cell:nth-child(5) { border-bottom: 1px solid var(--border); }
+      .process-cell:last-child { border-bottom: none; }
+    }
+    .process-step-num { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; color: #40bfa1; margin-bottom: 0.5rem; }
+    .process-icon {
+      width: 28px; height: 28px; margin-bottom: 0.65rem; color: #40bfa1;
+    }
+    .process-icon svg { width: 100%; height: 100%; display: block; }
+    .process-cell h3 { font-size: 0.95rem; font-weight: 600; margin: 0 0 0.35rem; color: var(--fg); }
+    .process-cell p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin: 0 0 0.85rem; flex: 1; }
+    .process-pill {
+      align-self: flex-start; font-size: 0.72rem; font-weight: 500; color: var(--muted);
+      padding: 0.28rem 0.6rem; border: 1px solid var(--border); border-radius: 9999px; background: var(--bg);
+    }
+    .process-footer {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+      margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--border);
+    }
+    .process-stats { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0; }
+    .process-stat {
+      padding: 0 1.1rem; text-align: left;
+    }
+    .process-stat:first-child { padding-left: 0; }
+    .process-stat:not(:first-child) { border-left: 1px solid var(--border); }
+    .process-stat-value { font-size: 1.2rem; font-weight: 700; color: var(--fg); line-height: 1.2; }
+    .process-stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
+    .process-cta {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.5rem 1rem; border: 1.5px solid var(--border); border-radius: 9999px;
+      color: var(--fg); font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      background: var(--card); transition: border-color 0.2s, color 0.2s;
+    }
+    .process-cta:hover { border-color: var(--accent); color: var(--accent); }
+    .process-cta svg { width: 0.9rem; height: 0.9rem; flex-shrink: 0; }
+    @media (max-width: 640px) {
+      .process-footer { flex-direction: column; align-items: flex-start; }
+      .process-stats { flex-direction: column; gap: 0.75rem; width: 100%; }
+      .process-stat { border-left: none !important; padding-left: 0 !important; padding-right: 0; }
+    }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    @media (max-width: 768px) { .about-inner { grid-template-columns: 1fr; } }
+    .about-inner p { color: var(--muted); margin: 0 0 1.5rem; }
+    .about-bullets { list-style: none; padding: 0; margin: 0; }
+    .about-bullets li { padding: 0.35rem 0; font-weight: 500; }
+    .about-bullets li::before { content: '— '; color: var(--muted); }
+    .cta-block {
+      background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%); color: #fff; border-radius: 1.5rem;
+      padding: 3rem; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2);
+    }
+    .cta-block h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.75rem; }
+    .cta-block p { color: rgba(255,255,255,0.8); margin: 0 0 1.5rem; }
+    .cta-block .btn-primary { background: #fff; color: #0a0a0a; }
+    .footer {
+      padding: 2rem 1.5rem; border-top: 1px solid var(--border); margin-top: 2rem;
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; max-width: 1100px; margin-left: auto; margin-right: auto;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+    .footer-links a:hover { color: var(--fg); }
+    .footer-contact { font-size: 0.875rem; color: var(--muted); }
+    .footer-contact a { color: var(--fg); text-decoration: none; }
+    .scroll-mt { scroll-margin-top: 5rem; }
+    /* Subtle scroll-in between sections (hero keeps its own entrance) */
+    .section-reveal {
+      opacity: 0;
+      transform: translateY(1.25rem);
+      transition:
+        opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .section-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      will-change: auto;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .section-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        will-change: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a href="/" class="nav-logo">K&A Agency</a>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#work">How we work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a href="book-a-call.html" class="nav-cta">Contact</a>
+      <button type="button" class="mobile-menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+
+  <section id="home" class="hero-wrap scroll-mt">
+    <div class="hero">
+      <div class="hero-card">
+        <p class="hero-label">Growth. Strategy. Execution.</p>
+        <h1>K&A Agency builds brands and digital systems that drive revenue.</h1>
+        <p>We help ambitious businesses scale with strategic branding, high-converting websites, and performance-driven digital execution.</p>
+        <div class="hero-btns">
+          <a href="book-a-call.html" class="btn-primary">Contact →</a>
+          <a href="#work" class="btn-secondary">How we work →</a>
+        </div>
+      </div>
+      <div class="hero-mockup">
+        <div class="mockup-cursor" id="mockup-cursor" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 3l14 9.5L12 12l-4 8L5 3z" fill="#fff" stroke="#0a0a0a" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="searchbar-wrap">
+          <span class="typed-text" id="mockup-typed"></span><span class="caret hidden" id="mockup-caret"></span>
+        </div>
+        <div class="row">
+          <div class="metric">Conversions</div>
+          <div class="metric">Traffic</div>
+          <div class="metric">Revenue</div>
+        </div>
+        <div class="row">
+          <div class="metric">+24%</div>
+          <div class="metric">+18%</div>
+          <div class="metric">+31%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="scroll-mt section-reveal">
+    <h2 class="section-title">Services</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <h3>Brand Strategy</h3>
+        <p>Messaging, positioning, and identity systems that make brands memorable.</p>
+      </div>
+      <div class="service-card">
+        <h3>Web Design & Development</h3>
+        <p>High-converting, modern websites built for clarity, trust, and performance.</p>
+      </div>
+      <div class="service-card">
+        <h3>Performance Marketing</h3>
+        <p>Campaigns and funnels designed to generate measurable growth.</p>
+      </div>
+      <div class="service-card">
+        <h3>Conversion Optimization</h3>
+        <p>Landing pages, UX improvements, and testing focused on turning traffic into revenue.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="process-wrap scroll-mt section-reveal">
+    <div class="process-inner">
+      <p class="process-kicker">How we work</p>
+      <h2 class="process-headline">From first call to <span class="accent">live site.</span></h2>
+      <p class="process-sub">No guesswork. No delays. A clear process that delivers every time.</p>
+
+      <div class="process-grid">
+        <article class="process-cell">
+          <p class="process-step-num">Step 01</p>
+          <div class="process-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 11a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Discovery</h3>
+          <p>We learn your business, your goals, and your audience. One focused call is all it takes.</p>
+          <span class="process-pill">1 call</span>
+        </article>
+        <article class="process-cell">
+          <p class="process-step-num">Step 02</p>
+          <div class="process-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 6h12M8 12h12M8 18h8M4 6h.01M4 12h.01M4 18h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Strategy</h3>
+          <p>We map out the site structure, content plan, and design direction before writing a line of code.</p>
+          <span class="process-pill">1 week</span>
+        </article>
+        <article class="process-cell">
+          <p class="process-step-num">Step 03</p>
+          <div class="process-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 9l-3 3 3 3M16 15l3-3-3-3M14 5l-4 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Build</h3>
+          <p>We design and develop your site. You see progress at every stage and give feedback in real time.</p>
+          <span class="process-pill">2–4 weeks</span>
+        </article>
+        <article class="process-cell">
+          <p class="process-step-num">Step 04</p>
+          <div class="process-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12m0 0l4-4m-4 4L8 11M5 19h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Launch</h3>
+          <p>We test everything, fix everything, then go live. Your site works on every device and loads fast.</p>
+          <span class="process-pill">1 day</span>
+        </article>
+        <article class="process-cell">
+          <p class="process-step-num">Step 05</p>
+          <div class="process-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Support</h3>
+          <p>We stay available after launch. Updates, fixes, and improvements whenever you need them.</p>
+          <span class="process-pill">ongoing</span>
+        </article>
+      </div>
+
+      <div class="process-footer">
+        <div class="process-stats">
+          <div class="process-stat">
+            <div class="process-stat-value">48h</div>
+            <div class="process-stat-label">avg response time</div>
+          </div>
+          <div class="process-stat">
+            <div class="process-stat-value">100%</div>
+            <div class="process-stat-label">on-time delivery</div>
+          </div>
+          <div class="process-stat">
+            <div class="process-stat-value">4 wk</div>
+            <div class="process-stat-label">avg time to launch</div>
+          </div>
+        </div>
+        <a href="book-a-call.html" class="process-cta">Start your project <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="scroll-mt section-reveal">
+    <h2 class="section-title">About K&A Agency</h2>
+    <div class="about-inner">
+      <div>
+        <p>K&A Agency partners with brands that need more than surface-level design. We combine strategic thinking, sharp creative, and performance-focused execution to build systems that help businesses grow with clarity and confidence.</p>
+      </div>
+      <div>
+        <ul class="about-bullets">
+          <li>Strategy-led</li>
+          <li>Design-driven</li>
+          <li>Results-focused</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="scroll-mt section-reveal">
+    <div class="cta-block">
+      <h2>Ready to build a brand that performs?</h2>
+      <p>Let's create a sharper digital presence and a stronger growth engine for your business.</p>
+      <a href="book-a-call.html" class="btn-primary">Contact</a>
+      <p style="margin-top: 1.5rem; font-size: 0.9rem;">
+        <a href="https://wa.me/447789182492" target="_blank" rel="noopener noreferrer" style="color: #fff; text-decoration: underline;">WhatsApp</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:kento@kaagency.co.uk" style="color: #fff; text-decoration: underline;">kento@kaagency.co.uk</a>
+        &nbsp;·&nbsp;+44 7789 182492
+      </p>
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      var revealEls = document.querySelectorAll('.section-reveal');
+      if (revealEls.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var io = new IntersectionObserver(
+          function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+        );
+        revealEls.forEach(function(el) { io.observe(el); });
+      } else {
+        revealEls.forEach(function(el) { el.classList.add('is-visible'); });
+      }
+    })();
+  </script>
+  <script>
+    (function() {
+      // Hero mockup: cursor + typewriter
+      var cursor = document.getElementById('mockup-cursor');
+      var typedEl = document.getElementById('mockup-typed');
+      var caretEl = document.getElementById('mockup-caret');
+      if (cursor && typedEl && caretEl) {
+        cursor.classList.add('clicking');
+        var word = 'kaagency.co.uk';
+        var startTypingAt = 1350;
+        setTimeout(function() {
+          caretEl.classList.remove('hidden');
+          var i = 0;
+          function typeNext() {
+            if (i < word.length) {
+              typedEl.textContent += word[i];
+              i++;
+              setTimeout(typeNext, 90);
+            }
+          }
+          typeNext();
+        }, startTypingAt);
+      }
+    })();
+  </script>
+  <footer class="footer">
+    <a href="/" class="nav-logo">K&A Agency</a>
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#work">How we work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-contact">
+      <a href="mailto:kento@kaagency.co.uk">kento@kaagency.co.uk</a> · <a href="tel:+447789182492">+44 7789 182492</a> · <a href="https://wa.me/447789182492" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    </div>
+  </footer>
+</body>
+</html>
