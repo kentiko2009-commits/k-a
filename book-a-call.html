@@ -51,6 +51,9 @@
     .whatsapp-link { font-size: 0.9rem; }
     .whatsapp-link a { color: #0a0a0a; text-decoration: underline; }
     .whatsapp-link a:hover { color: #525252; }
+    .status-text { font-size: 0.85rem; color: #374151; min-height: 1.2em; margin-top: 0.75rem; }
+    .status-text.success { color: #166534; }
+    .status-text.error { color: #b91c1c; }
   </style>
 </head>
 <body>
@@ -111,18 +114,20 @@
       </div>
       <p class="hint">We typically respond within 1–2 business days.</p>
       <div class="btn-wrap">
-        <button type="button" class="btn-send" id="send-btn">
+        <button type="submit" class="btn-send" id="send-btn">
           Send Question
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
         <span class="whatsapp-link">or <a href="https://wa.me/447789182492" target="_blank" rel="noopener noreferrer">continue on WhatsApp</a></span>
       </div>
+      <p class="status-text" id="status-text" aria-live="polite"></p>
     </form>
   </div>
   <script>
     (function() {
       var form = document.getElementById('contact-form');
       var sendBtn = document.getElementById('send-btn');
+      var statusText = document.getElementById('status-text');
       var nameEl = document.getElementById('name');
       var emailEl = document.getElementById('email');
       var serviceEl = document.getElementById('service');
@@ -136,7 +141,13 @@
       emailEl.addEventListener('input', updateButton);
       serviceEl.addEventListener('change', updateButton);
       updateButton();
-      sendBtn.addEventListener('click', function() {
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (!isValid()) return;
+        sendBtn.disabled = true;
+        statusText.textContent = 'Sending...';
+        statusText.className = 'status-text';
+
         var qtype = document.getElementById('qtype').value;
         var name = document.getElementById('name').value.trim();
         var email = document.getElementById('email').value.trim();
@@ -144,15 +155,40 @@
         var budget = document.getElementById('budget').value;
         var company = document.getElementById('company').value.trim();
         var message = document.getElementById('message').value.trim();
-        var bodyPlain = 'Question type: ' + qtype + '\n\nName: ' + name + '\nEmail: ' + email + '\nService: ' + service;
-        if (budget) bodyPlain += '\nBudget: ' + budget;
-        if (company) bodyPlain += '\nCompany: ' + company;
-        if (message) bodyPlain += '\n\nMessage: ' + message;
-        var bodyEncoded = encodeURIComponent(bodyPlain);
-        if (bodyEncoded.length > 600) bodyEncoded = bodyEncoded.substring(0, 597) + encodeURIComponent('...');
-        var subject = 'Question from ' + name;
-        var mailto = 'mailto:kento@kaagency.co.uk,aditya@kaagency.co.uk?subject=' + encodeURIComponent(subject) + '&body=' + bodyEncoded;
-        window.location.href = mailto;
+        var payload = new FormData();
+        payload.append('_subject', 'Question from ' + name);
+        payload.append('_captcha', 'false');
+        payload.append('_cc', 'aditya@kaagency.co.uk');
+        payload.append('Question type', qtype);
+        payload.append('Name', name);
+        payload.append('Email', email);
+        payload.append('Service', service);
+        if (budget) payload.append('Budget', budget);
+        if (company) payload.append('Company', company);
+        if (message) payload.append('Message', message);
+
+        fetch('https://formsubmit.co/ajax/kento@kaagency.co.uk', {
+          method: 'POST',
+          body: payload
+        })
+          .then(function(response) { return response.json(); })
+          .then(function(result) {
+            if (result && (result.success === 'true' || result.success === true)) {
+              form.reset();
+              updateButton();
+              statusText.textContent = 'Thanks. Your message was sent successfully.';
+              statusText.className = 'status-text success';
+              return;
+            }
+            throw new Error('Unexpected response');
+          })
+          .catch(function() {
+            statusText.textContent = 'Could not send right now. Please try again in a moment.';
+            statusText.className = 'status-text error';
+          })
+          .finally(function() {
+            updateButton();
+          });
       });
     })();
   </script>
