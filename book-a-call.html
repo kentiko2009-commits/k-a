@@ -186,7 +186,11 @@
               statusText.className = 'status-text success';
               return;
             }
-            var errorMessage = result.message || 'Could not send right now. Please try again in a moment.';
+            var providerMessage = (result.message || '').toLowerCase();
+            var errorMessage = 'Could not send right now. Please try again in a moment.';
+            if (providerMessage.indexOf('activation') !== -1) {
+              errorMessage = 'Email sending is being finalized right now. Please try again shortly or contact us on WhatsApp.';
+            }
             statusText.textContent = errorMessage;
             statusText.className = 'status-text error';
           })
