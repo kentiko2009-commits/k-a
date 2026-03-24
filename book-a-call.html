@@ -167,20 +167,28 @@
         if (company) payload.append('Company', company);
         if (message) payload.append('Message', message);
 
-        fetch('https://formsubmit.co/ajax/kento@kaagency.co.uk', {
+        fetch('https://formsubmit.co/ajax/ka@kaagency.co.uk', {
           method: 'POST',
           body: payload
         })
-          .then(function(response) { return response.json(); })
-          .then(function(result) {
-            if (result && (result.success === 'true' || result.success === true)) {
+          .then(function(response) {
+            return response.json().then(function(result) {
+              return { ok: response.ok, result: result };
+            });
+          })
+          .then(function(apiResponse) {
+            var result = apiResponse.result || {};
+            var isSuccess = result.success === 'true' || result.success === true;
+            if (apiResponse.ok && isSuccess) {
               form.reset();
               updateButton();
               statusText.textContent = 'Thanks. Your message was sent successfully.';
               statusText.className = 'status-text success';
               return;
             }
-            throw new Error('Unexpected response');
+            var errorMessage = result.message || 'Could not send right now. Please try again in a moment.';
+            statusText.textContent = errorMessage;
+            statusText.className = 'status-text error';
           })
           .catch(function() {
             statusText.textContent = 'Could not send right now. Please try again in a moment.';
